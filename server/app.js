@@ -56,6 +56,7 @@ app.use(passport.session()); // 세션 연결
 app.use('/', indexRouter);
 app.use('/view', viewRouter)
 app.use('/users', usersRouter);
+app.use('/file', fileRouter);
 
 connect();
 passportConfig();

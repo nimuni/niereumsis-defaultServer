@@ -2,21 +2,15 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import fileImpl from './impl/fileServiceImpl';
 import fs from 'fs';
+import AWS from "aws-sdk";
 
-// 파일 저장 경로.
-export const getUploadablePath = () => {
-  // TODO. 가변적으로 변경되어야 함.
-  // ex) 관리자가 지정해둔 폴더의 용량이 꽉차지 않았는지 계산 후 공간이 남는 위치로
-  // 자동지정할 수 있도록 함수 구현.
-  const projectUploadsPath = path.join(process.cwd(), 'uploads');
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY, // Access key ID
+  secretAccesskey: process.env.AWS_SECRET_KEY, // Secret access key
+  region: process.env.AWS_REGION //Region
+})
+const s3 = new AWS.S3();
 
-  let uploadPath = projectUploadsPath;
-  // 1. DB?에서 지정된 폴더경로 불러오기
-  // 2. 폴더들의 지정된 용량, 남은 저장공간 계산
-  // 3. 여유가 있으면 폴더경로 리턴
-
-  return uploadPath;
-};
 export const upload = async (files) => {
   console.log('call fileService upload');
   let filesInfo = [];
